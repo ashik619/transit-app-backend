@@ -1,0 +1,19 @@
+{
+  "name": "tansitapp_backend",
+  "version": "1.0.0",
+  "description": "BAckend for Transit Android app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ashik Sunny",
+  "license": "ISC",
+  "dependencies" : {
+    "express"    : "~4.13.2",
+    "mongoose"   : "~3.6.2",
+    "morgan"     : "~1.6.1",
+    "body-parser": "~1.14.1",
+    "method-override": "~2.3.5",
+    "mongoose-geojson-schema" : "~2.1.2"
+  }
+}
