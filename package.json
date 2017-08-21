@@ -10,10 +10,11 @@
   "license": "ISC",
   "dependencies" : {
     "express"    : "~4.13.2",
-    "mongoose"   : "~3.6.2",
+    "mongoose"   : "~4.9.0",
     "morgan"     : "~1.6.1",
     "body-parser": "~1.14.1",
     "method-override": "~2.3.5",
-    "mongoose-geojson-schema" : "~2.1.2"
+    "mongoose-geojson-schema" : "~2.1.2",
+    "mongoose-unique-validator" : "1.0.5"
   }
 }
