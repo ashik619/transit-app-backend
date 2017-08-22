@@ -8,4 +8,4 @@ var busStopSchema = new mongoose.Schema({
     stopId: { type: Number, unique: true, required: true }
 });
 busStopSchema.plugin(uniqueValidator);
-module.exports = mongoose.model('BusStop', busStopSchema,"BusStops");
+module.exports = mongoose.model('BusStop', UserSchema,"BusStops");
