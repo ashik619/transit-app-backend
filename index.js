@@ -9,7 +9,6 @@ var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 // connect to MongoDB
 
-//mongoose.connect('mongodb://localhost:27017')
 mongoose.connect('mongodb://127.0.0.1:27017');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -28,8 +27,11 @@ res.send('It works');
 var busstop_routes = require('./routes/busstop_routes');
 app.use('/api/busstop', busstop_routes);
 
+var route_routes = require('./routes/route_routes');
+app.use('/api/Route', route_routes);
 
-var port='80';
+
+var port='8080';
 app.listen(port);
 console.log('Listening on port:'+port );
 module.exports = app;
