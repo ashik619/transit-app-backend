@@ -17,7 +17,7 @@ router.post('/createRoute', function(req, res) {
     temp.dst = {type: "Point",coordinates:[req.body.dlng,req.body.dlat]};
 	temp.save(function(err){
 		if(err){
-			res.json({ success: false , msg: err });
+			res.json({ success: false , msg: 500 });
 		}else{
 			res.json({ success: true , msg: 200 });	
 		}
@@ -27,9 +27,22 @@ router.post('/createRoute', function(req, res) {
 router.post('/addBustop', function(req, res) {
 	Route.findOne({routeId : req.body.id},function(err,route){
         if(err){
-            console.log(err);
+			res.json({ success: false , msg: 404 });
         }else {
-            console.log(route)
+            console.log(route);
+			if(route.busStops.indexOf(req.body.bsId) > -1){
+				res.json({ success: false , msg: 422 });
+			}else{
+				Route.update(
+				{ _id: route._id }, 
+				{ $push: { busStops: req.body.bsId } },
+				function(err,raw){
+					if(err){
+						res.json({ success: false , msg: 500 });
+					}else res.json({ success: true , msg: 200 });
+				}
+				);
+			}
         }
     });
 });

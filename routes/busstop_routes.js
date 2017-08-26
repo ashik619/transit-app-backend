@@ -5,7 +5,7 @@ mongoose.set('debug', true);
 var BusStop = require('../models/busStop.js');
 
 router.get('/',function(req,res){
-res.send('It works');
+	res.sendFile('busstop.html', { root: './public/busStop/' });
 });
 
 router.post('/createBusStop', function(req, res) {

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<body ng-app="busStopApp" ng-controller="busStopCtrl">
+
+<div class="w3-container">
+
+<h3>Bus Stops</h3>
+
+<table class="w3-table w3-bordered w3-striped">
+  <tr>
+    <th>Edit</th>
+    <th>Bus Stop Id</th>
+    <th>Name</th>
+    <th>Latitude</th>
+    <th>Longitude</th>
+  </tr>
+  <tr ng-repeat="busStop in busStops">
+    <td>
+      <button class="w3-btn w3-ripple" ng-click="editUser(user.id)">&#9998; Edit</button>
+    </td>
+    <td>{{ busStop.stopId }}</td>
+    <td>{{ busStop.name }}</td>
+    <td>{{ busStop.loc.coordinates[1] }}</td>
+    <td>{{ busStop.loc.coordinates[0]}}</td>
+  </tr>
+</table>
+<br>
+<button class="w3-btn w3-green w3-ripple" ng-click="editUser('new')">&#9998; Create New User</button>
+
+<form ng-hide="hideform">
+  <h3 ng-show="edit">Create New User:</h3>
+  <h3 ng-hide="edit">Edit User:</h3>
+    <label>First Name:</label>
+    <input class="w3-input w3-border" type="text" ng-model="fName" ng-disabled="!edit" placeholder="First Name">
+  <br>
+    <label>Last Name:</label>
+    <input class="w3-input w3-border" type="text" ng-model="lName" ng-disabled="!edit" placeholder="Last Name">
+  <br>
+    <label>Password:</label>
+    <input class="w3-input w3-border" type="password" ng-model="passw1" placeholder="Password">
+  <br>
+    <label>Repeat:</label>
+    <input class="w3-input w3-border" type="password" ng-model="passw2" placeholder="Repeat Password">
+  <br>
+  <button class="w3-btn w3-green w3-ripple" ng-disabled="error || incomplete">&#10004; Save Changes</button>
+</form>
+
+</div>
+
+<script>
+    var app = angular.module('busStopApp', []);
+    app.controller('busStopCtrl', function($scope, $http) {
+    $http.get("127.0.0.1:8080/api/busstop/getBusStops")
+    .then(function(response) {
+        $scope.busStops = response.data.data;
+        });
+    });
+</script>
+
+</body>
+</html>
