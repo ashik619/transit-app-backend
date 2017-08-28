@@ -4,8 +4,10 @@ var uniqueValidator = require('mongoose-unique-validator');
 mongoose.set('debug', true);
 var routeSchema = new mongoose.Schema({
     name : String,
-    src : mongoose.Schema.Types.Point,
-    dst : mongoose.Schema.Types.Point,
+    srcBsId : Number,
+    dstBsId : Number,
+    srcName : String,
+    dstName : String,
     busStops : [Number],
     routeId: { type: Number, unique: true, required: true }
 });

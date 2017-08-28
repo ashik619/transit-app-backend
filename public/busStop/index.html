@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<body ng-app="busStopApp" ng-controller="busStopCtrl">
+
+<div class="w3-container">
+
+<h3>Bus Stops</h3>
+
+<table class="w3-table w3-bordered w3-striped">
+  <tr>
+    <th>Bus Stop Id</th>
+    <th>Name</th>
+    <th>Latitude</th>
+    <th>Longitude</th>
+  </tr>
+  <tr ng-repeat="busStop in busStops">
+    <td>{{ busStop.stopId }}</td>
+    <td>{{ busStop.name }}</td>
+    <td>{{ busStop.loc.coordinates[1] }}</td>
+    <td>{{ busStop.loc.coordinates[0]}}</td>
+  </tr>
+</table>
+<br>
+<p>{{content}}</p>
+<button class="w3-btn w3-green w3-ripple" ng-click="createNew = true">&#9998; Create New Bus Stop</button>
+
+<form ng-show="createNew">
+  <h3>Create New Bus Stop:</h3>
+    <label>Name:</label>
+    <input class="w3-input w3-border" type="text" ng-model="name"  placeholder="Name">
+  <br>
+    <label>Stop ID:</label>
+    <input class="w3-input w3-border" type="number" ng-model="id"  placeholder="Stop ID">
+  <br>
+    <label>Latitude:</label>
+    <input class="w3-input w3-border" type="number" ng-model="lat" placeholder="Latitude">
+  <br>
+    <label>Longitude:</label>
+    <input class="w3-input w3-border" type="number" ng-model="lng" placeholder="Longitude">
+  <br>
+  <button class="w3-btn w3-green w3-ripple" ng-click="createBusStop()">&#10004; Create Bus Stop</button>
+</form>
+
+</div>
+
+<script
+       src='busStop.js'>
+</script>
+    
+  
+
+</body>
+</html>

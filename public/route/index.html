@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<body ng-app="routeApp" ng-controller="routeCtrl">
+
+<div class="w3-container">
+
+<h3>Bus Stops</h3>
+
+<table class="w3-table w3-bordered w3-striped">
+  <tr>
+    <th>Route Id</th>
+    <th>Name</th>
+    <th>Start Name</th>
+    <th>Stop Name</th>
+  </tr>
+  <tr ng-repeat="route in routes">
+    <td>{{ route.routeId }}</td>
+    <td>{{ route.name }}</td>
+    <td>{{ route.srcName }}</td>
+    <td>{{ route.dstName}}</td>
+    <td>
+      <button class="w3-btn w3-green w3-ripple" ng-click="viewAllBusStops(route.routeId)">&#9998; Add Bus Stop</button>
+    </td>
+  </tr>
+</table>
+<br>
+<p>{{content}}</p>
+<button class="w3-btn w3-green w3-ripple" ng-click="createNew = true">&#9998; Create New Route</button>
+
+<form ng-show="createNew">
+  <h3>Create New Route:</h3>
+    <label>Name:</label>
+    <input class="w3-input w3-border" type="text" ng-model="name"  placeholder="Name">
+  <br>
+    <label>Route ID:</label>
+    <input class="w3-input w3-border" type="number" ng-model="id"  placeholder="Route ID">
+  <br>
+    <label>Select Start Bus Stop:</label>
+    <select class="w3-select w3-border" ng-model="startBusStop" ng-options = "busStop as busStop.name for busStop in busStops">
+    </select>
+   <br>
+   <br>
+    <label>Select Last Bus Stop:</label>
+    <select class="w3-select w3-border" ng-model="lastBusStop" ng-options = "busStop as busStop.name for busStop in busStops">
+    </select>
+  <br>
+  <br>
+  <button class="w3-btn w3-green w3-ripple" ng-click="createRoute()">&#10004; Create Route</button>
+</form>
+    <div ng-show = "showBusStops">
+        <h3>Bus Stops In Route:</h3>
+        <ul class="w3-ul w3-card-4" style="width:90%"  >
+            <li ng-repeat="busStop in routeBusStops">{{busStop.name}}</li>
+        </ul>
+    </div>
+
+</div>
+
+<script
+       src='route.js'>
+</script>
+    
+  
+
+</body>
+</html>

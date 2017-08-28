@@ -21,9 +21,10 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.get('/',function(req,res){
-res.send('It works');
-});
+app.use('/busStop', express.static('./public/busStop'));
+
+app.use('/route', express.static('./public/route'));
+
 var busstop_routes = require('./routes/busstop_routes');
 app.use('/api/busstop', busstop_routes);
 

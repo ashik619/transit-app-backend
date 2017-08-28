@@ -4,9 +4,7 @@ var mongoose = require('mongoose');
 mongoose.set('debug', true);
 var BusStop = require('../models/busStop.js');
 
-router.get('/',function(req,res){
-	res.sendFile('busstop.html', { root: './public/busStop/' });
-});
+
 
 router.post('/createBusStop', function(req, res) {
 	var temp = new BusStop();
@@ -17,7 +15,7 @@ router.post('/createBusStop', function(req, res) {
 		if(err){
 			res.json({ success: false , msg: err });
 		}else{
-			res.json({ success: true , msg: 200 });	
+			res.json({ success: true , msg: "Bustop Created" });	
 		}
 	});
 });
