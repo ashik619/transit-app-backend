@@ -1,5 +1,5 @@
 var app = angular.module('routeApp', []);
-    app.controller('routeCtrl', function($scope, $http) {
+    app.controller('routeCtrl', function($scope, $http, $window) {
     $scope.createNew = false;
     $http({
              method: 'GET',
@@ -8,7 +8,7 @@ var app = angular.module('routeApp', []);
               $scope.routes = response.data.data;
               $scope.content = "Success";
               }, function(response) {
-                 $scope.content = "Something went wrong";
+                showMessage("Some thing went wrong");
               }
         );
     $http({
@@ -16,40 +16,32 @@ var app = angular.module('routeApp', []);
             url : 'http://127.0.0.1:8080/api/busstop/getBusStops'})
         .then(function(response) {
               $scope.busStops = response.data.data;
-              $scope.content = "Success2";
               }, function(response) {
-                 $scope.content = "Something went wrong";
-              }
-        );
-        
-    $http({
-            method: 'GET',
-            url : 'http://127.0.0.1:8080/api/route/getRouteBusStops'})
-        .then(function(response) {
-              $scope.busStops = response.data.data;
-              $scope.content = "Success2";
-              }, function(response) {
-                 $scope.content = "Something went wrong";
+                 showMessage("Some thing went wrong");
               }
         );
         
     $scope.createRoute = function() {
-          var reqBody = {
-            method: "POST",
-            url: "http://127.0.0.1:8080/api/route/createRoute",
-            headers: {
-            'Content-Type': 'application/json'
-            },
-            data: { name: $scope.name, routeId : $scope.id, srcName : $scope.startBusStop.name, srcBsId : $scope.startBusStop.id, dstName : $scope.lastBusStop.name, dstBsId : $scope.lastBusStop.id }
-            };
-          $http(reqBody).then(function(response){
-                  $scope.content = response.data.msg;
-                }, function(response){
-                    $scope.content = response.data.msg;
-                });
+         if($scope.name && $scope.id && $scope.startBusStop && $scope.lastBusStop){
+                  $scope.showBusStops = false;
+                   var reqBody = {
+                     method: "POST",
+                     url: "http://127.0.0.1:8080/api/route/createRoute",
+                     headers: {
+                     'Content-Type': 'application/json'
+                     },
+                     data: { name: $scope.name, routeId : $scope.id, srcName : $scope.startBusStop.name, srcBsId : $scope.startBusStop.id, dstName : $scope.lastBusStop.name, dstBsId : $scope.lastBusStop.id }
+                     };
+                   $http(reqBody).then(function(response){
+                           $scope.content = response.data.msg;
+                         }, function(response){
+                             $scope.content = response.data.msg;
+                         });
+         } else showMessage("Fill all fields");
   
     };
     $scope.viewAllBusStops = function(id){
+         $scope.selectedRouteId = id;
         $scope.showBusStops = true;
         $scope.createNew = false;
         var finalUrl = 'http://127.0.0.1:8080/api/route/getRouteBusStops?id=';
@@ -58,10 +50,31 @@ var app = angular.module('routeApp', []);
             url : finalUrl.concat(id)})
         .then(function(response) {
               $scope.routeBusStops = response.data.data;
-              $scope.content = "Success3";
               }, function(response) {
                  $scope.content = "Something went wrong";
               }
         );
     };
-});
+    $scope.addNewBusStop = function(){
+        if($scope.selectedBusStop){
+            var reqBody = {
+            method: "POST",
+            url: "http://127.0.0.1:8080/api/route/addBustop",
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            data: { id : $scope.selectedRouteId, bsId : $scope.selectedBusStop.stopId}
+            };
+          $http(reqBody).then(function(response){
+                  if(response.data.msg==200){
+                           showMessage("Bus Stop Added");
+                  }else showMessage("Some thing went wrong");
+                }, function(response){
+                    showMessage("Some thing went wrong");
+                });
+        }else showMessage("Select Bus Stop");
+    };
+    var showMessage = function(message){
+         $window.alert(message);
+    };
+}); 

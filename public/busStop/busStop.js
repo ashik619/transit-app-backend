@@ -1,5 +1,5 @@
 var app = angular.module('busStopApp', []);
-    app.controller('busStopCtrl', function($scope, $http) {
+    app.controller('busStopCtrl', function($scope, $http, $window) {
     $scope.createNew = false;
     
       $http({
@@ -9,7 +9,7 @@ var app = angular.module('busStopApp', []);
               $scope.busStops = response.data.data;
               $scope.content = "Success";
               }, function(response) {
-                 $scope.content = "Something went wrong";
+                 showMessage("Something went wrong");
               }
             );
       $scope.createBusStop = function() {
@@ -22,10 +22,13 @@ var app = angular.module('busStopApp', []);
             data: { name: $scope.name,stopId : $scope.id,lat : $scope.lat,lng : $scope.lng }
             };
           $http(reqBody).then(function(response){
-                  $scope.content = response.data.msg;
+                  showMessage(response.data.msg);
                 }, function(response){
-                    $scope.content = response.data.msg;
+                    showMessage("Something went wrong");
                 });
   
       };
+      var showMessage = function(message){
+         $window.alert(message);
+    };
 });
