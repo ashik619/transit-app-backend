@@ -9,5 +9,5 @@ var busSchema = new mongoose.Schema({
     status : {type : Number, default : 0 }, 
     busId: { type: Number, unique: true, required: true }
 });
-busStopSchema.plugin(uniqueValidator);
-module.exports = mongoose.model('BusS', busStopSchema,"BusStops");
+busSchema.plugin(uniqueValidator);
+module.exports = mongoose.model('Bus', busSchema,"allBus"); 

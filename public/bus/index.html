@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<body ng-app="busApp" ng-controller="busCtrl">
+
+<div class="w3-container">
+
+<h3>All Bus</h3>
+
+<table class="w3-table w3-bordered w3-striped">
+  <tr>
+    <th>Bus Id</th>
+    <th>Name</th>
+    <th>Rute ID</th>
+    <th>Status</th>
+  </tr>
+  <tr ng-repeat="bus in allBus">
+    <td>{{ bus.busId }}</td>
+    <td>{{ bus.name }}</td>
+    <td>{{ bus.routeId }}</td>
+    <td>{{ bus.status }}</td>
+  </tr>
+</table>
+<br>
+<p>{{content}}</p>
+<button class="w3-btn w3-green w3-ripple" ng-click="createNew = true">&#9998; Add New Bus</button>
+
+<form ng-show="createNew">
+  <h3>Add New Bus:</h3>
+    <label>Name:</label>
+    <input class="w3-input w3-border" type="text" ng-model="name"  placeholder="Name">
+  <br>
+    <label>Bus ID:</label>
+    <input class="w3-input w3-border" type="number" ng-model="bid"  placeholder="Bus ID">
+  <br>
+    <label>Select Route for new Bus:</label>
+    <select class="w3-select w3-border" ng-model="startBusStop" ng-options = "route as route.name for route in routes">
+    </select>
+  <br>
+  <br>
+  <button class="w3-btn w3-green w3-ripple" ng-click="addNewBus()">&#10004; Add Bus</button>
+  <br>
+</form>
+
+</div>
+
+<script
+       src='bus.js'>
+</script>
+    
+  
+
+</body>
+</html>

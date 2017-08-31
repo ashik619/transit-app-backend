@@ -25,11 +25,16 @@ app.use('/busStop', express.static('./public/busStop'));
 
 app.use('/route', express.static('./public/route'));
 
+app.use('/bus', express.static('./public/bus'));
+
 var busstop_routes = require('./routes/busstop_routes');
 app.use('/api/busstop', busstop_routes);
 
 var route_routes = require('./routes/route_routes');
 app.use('/api/Route', route_routes);
+
+var bus_routes = require('./routes/bus_rotes');
+app.use('/api/bus', bus_routes);
 
 
 var port='8080';
