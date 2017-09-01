@@ -3,7 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 mongoose.set('debug', true);
 var Bus = require('../models/bus.js');
-
+var async = require("async");
 
 
 router.post('/createBus', function(req, res) {
@@ -42,6 +42,18 @@ router.post('/updateCurrentLoc', function(req, res) {
 		});
 
 });
+router.post('/findMyBus', function(req, res) {
+	var srcBsId;
+	var dstBsId;
+	async.series([
+		async.
+				  ],function(err){
+		
+	});
+    
+});
+
+
 
 	
 module.exports = router;
