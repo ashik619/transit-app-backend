@@ -46,8 +46,9 @@ router.post('/findMyBus', function(req, res) {
 	var srcBsId;
 	var dstBsId;
 	async.series([
-		async.
+		async.parallel([],function(err){})
 				  ],function(err){
+		}
 		
 	});
     

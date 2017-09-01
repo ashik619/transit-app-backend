@@ -1,4 +1,3 @@
-var GeoJSON = require('mongoose-geojson-schema');
 var mongoose = require('mongoose');
 var uniqueValidator = require('mongoose-unique-validator');
 mongoose.set('debug', true);
