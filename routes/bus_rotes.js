@@ -3,6 +3,8 @@ var router = express.Router();
 var mongoose = require('mongoose');
 mongoose.set('debug', true);
 var Bus = require('../models/bus.js');
+var BusStop = require('../models/busStop.js');
+var Route = require('../models/route.js');
 var async = require("async");
 
 
@@ -42,16 +44,86 @@ router.post('/updateCurrentLoc', function(req, res) {
 		});
 
 });
+
+function findNearBusStop(lat,lng,callback){
+	BusStop.find(
+		{
+			loc : {
+				$near:{
+					 $geometry: { type: "Point",  coordinates: [ lng, lat ] }
+				}
+			}
+		},function(err,busStop){
+			if(err){
+				callback(err,null);
+			}else{
+				if(busStop){
+					console.log(busStop[0]);
+					callback(null,busStop[0]);
+				}else{
+					callback("no bus found",null);
+				}
+			}
+		}
+	);
+}
+
 router.post('/findMyBus', function(req, res) {
-	var srcBsId;
-	var dstBsId;
-	async.series([
-		async.parallel([],function(err){})
-				  ],function(err){
+	
+	async.parallel([
+		function(callback){
+			findNearBusStop(req.body.sLat,req.body.slng,function(err,result){
+				callback(err,result);
+			});
+		},
+		function(callback){
+			findNearBusStop(req.body.dLat,req.body.dlng,function(err,result){
+				callback(err,result);
+			});
+		},
+		],function(err, results) {
+					if (err !== null) {
+					  console.log(err);
+					}else{
+						console.log(results);
+						res.json(results);
+					}
+		  }
+	);
+	async.waterfall([
+		function(callback){
+			async.parallel([
+				function(callback){
+					findNearBusStop(req.body.sLat,req.body.slng,function(err,result){
+						callback(err,result);
+					});
+				},
+				function(callback){
+					findNearBusStop(req.body.dLat,req.body.dlng,function(err,result){
+						callback(err,result);
+					});
+				},
+				],function(err, results) {
+							if (err !== null) {
+							  callback(true,"err");
+							}else{
+								console.log(results);
+								callback(null,results);
+							}
+				  }
+			);
+		},
+		function(results,callback){
+			var srcBsId =  results[0].stopId;
+			var dstBsId =  results[1].stopId;
+			Route.
+			
 		}
 		
+	],function(err,results){
+		
 	});
-    
+	    
 });
 
 
