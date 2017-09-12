@@ -69,27 +69,8 @@ function findNearBusStop(lat,lng,callback){
 }
 
 router.post('/findMyBus', function(req, res) {
-	
-	async.parallel([
-		function(callback){
-			findNearBusStop(req.body.sLat,req.body.slng,function(err,result){
-				callback(err,result);
-			});
-		},
-		function(callback){
-			findNearBusStop(req.body.dLat,req.body.dlng,function(err,result){
-				callback(err,result);
-			});
-		},
-		],function(err, results) {
-					if (err !== null) {
-					  console.log(err);
-					}else{
-						console.log(results);
-						res.json(results);
-					}
-		  }
-	);
+	var srcBusStop;
+	var dstBusStop;
 	async.waterfall([
 		function(callback){
 			async.parallel([
@@ -105,7 +86,7 @@ router.post('/findMyBus', function(req, res) {
 				},
 				],function(err, results) {
 							if (err !== null) {
-							  callback(true,"err");
+								callback(true,"err");
 							}else{
 								console.log(results);
 								callback(null,results);
@@ -114,14 +95,56 @@ router.post('/findMyBus', function(req, res) {
 			);
 		},
 		function(results,callback){
-			var srcBsId =  results[0].stopId;
-			var dstBsId =  results[1].stopId;
-			Route.
+			srcBusStop =  results[0];
+			dstBusStop =  results[1];
+			Route.find({ 'busStops' : { $all : [srcBusStop.stopId , dstBusStop.stopId ]}}
+					   ,function(err, routes){
+					if(err){
+						callback(err,null);
+					}else{
+						if(routes.length > 0){
+							callback(null,routes);
+						}
+					}
+				}
+			);
 			
+		},
+		function(routes,callback){
+			var finalroutes = [];
+			for (var i = 0; i < routes.length; i++) {
+				var route = routes[i];
+				if(route.busStops.indexOf(srcBusStop.stopId)<route.busStops.indexOf(dstBusStop.stopId)){
+					finalroutes.push({routeId : route.routeId, status : 1});
+				}else {
+					finalroutes.push({routeId : route.routeId, status : 2});
+				}
+			}
+			callback(null,finalroutes);
+		},
+		function(finalroutes,callback){
+			var finalBuses = [];
+			for (var i = 0; i < finalroutes.length; i++) {
+				Bus.find(
+					finalroutes[i],
+					function(err,buses){
+						if(buses){
+							if(buses.length>0){
+								finalBuses.push(buses);
+							}
+						}
+					}
+				);
+			}
+			callback(null,finalBuses);
 		}
 		
 	],function(err,results){
-		
+		if(err !== null){
+			res.json(err);
+		}else if(results !== null){
+			res.json(results);
+		}
 	});
 	    
 });

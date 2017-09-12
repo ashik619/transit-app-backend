@@ -27,7 +27,7 @@ var app = angular.module('busApp', []);
             headers: {
             'Content-Type': 'application/json'
             },
-            data: { name: $scope.name,busId : $scope.bid, routeId : $scope.routeId }
+            data: { name: $scope.name,busId : $scope.bid, routeId : $scope.selectedRoute.routeId }
             };
           $http(reqBody).then(function(response){
                   showMessage(response.data.msg);
