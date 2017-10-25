@@ -6,8 +6,10 @@ var busSchema = new mongoose.Schema({
     name: String,
     cloc: mongoose.Schema.Types.Point,
     routeId : Number,
-    status : {type : Number, default : 0 }, 
-    busId: { type: Number, unique: true, required: true }
+    status : {type : Number, default : 0 },
+    busId: { type: Number, unique: true, required: true },
+    ownerId : { type: Number, required: true },
+    driverId : Number
 });
 busSchema.plugin(uniqueValidator);
-module.exports = mongoose.model('Bus', busSchema,"allBus"); 
+module.exports = mongoose.model('Bus', busSchema,"allBus");

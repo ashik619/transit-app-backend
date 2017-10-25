@@ -12,12 +12,13 @@ router.post('/createBus', function(req, res) {
 	var temp = new Bus();
 	temp.name = req.body.name;
 	temp.busId = req.body.busId;
-    temp.routeId = req.body.routeId;
+  temp.routeId = req.body.routeId;
+	temp.ownerId = req.body.ownerId;
 	temp.save(function(err){
 		if(err){
 			res.json({ success: false , msg: err });
 		}else{
-			res.json({ success: true , msg: "Bus Added" });	
+			res.json({ success: true , msg: "Bus Added" });
 		}
 	});
 });
@@ -31,6 +32,20 @@ router.get('/getAllBus', function(req, res) {
 		}
 	});
 });
+router.get('/getBusDetails', function(req, res) {
+	Bus.find({busId : req.query.bId},function(err, allBus) {
+		if (err) {
+			res.json({ success: false , msg: 500 });
+		}else{
+			var reqBus = allBus[0];
+			Route.find({routeId: reqBus.routeId},function(err,routes){
+				res.json({ success: true , data: {bus : reqBus,route : routes[0] } });
+			});
+		}
+	});
+});
+
+
 
 router.post('/updateCurrentLoc', function(req, res) {
     Bus.findOneAndUpdate({busId : req.body.id},{$set: { cloc: { type: "Point", coordinates: [ req.body.lng, req.body.lat ] }  }},{new: true},function(err,bus){
@@ -58,7 +73,6 @@ function findNearBusStop(lat,lng,callback){
 				callback(err,null);
 			}else{
 				if(busStop){
-					console.log(busStop[0]);
 					callback(null,busStop[0]);
 				}else{
 					callback("no bus found",null);
@@ -108,7 +122,7 @@ router.post('/findMyBus', function(req, res) {
 					}
 				}
 			);
-			
+
 		},
 		function(routes,callback){
 			var finalroutes = [];
@@ -124,32 +138,56 @@ router.post('/findMyBus', function(req, res) {
 		},
 		function(finalroutes,callback){
 			var finalBuses = [];
+			console.log(finalroutes);
 			for (var i = 0; i < finalroutes.length; i++) {
 				Bus.find(
 					finalroutes[i],
 					function(err,buses){
-						if(buses){
-							if(buses.length>0){
-								finalBuses.push(buses);
-							}
+						console.log(buses);
+
+						if(buses.length>0){
+							finalBuses.push(buses);
+						}
+						console.log(finalBuses);
+						console.log('i :'+i);
+						if(i == finalroutes.length){
+							callback(null,finalBuses);
 						}
 					}
 				);
 			}
-			callback(null,finalBuses);
 		}
-		
+
 	],function(err,results){
+		console.log(results);
 		if(err !== null){
 			res.json(err);
 		}else if(results !== null){
 			res.json(results);
 		}
 	});
-	    
+
+});
+router.get('/findNearBuses', function(req, res) {
+	Bus.find(
+		{
+			cloc : {
+				$near:{
+					 $geometry: { type: "Point",  coordinates: [ req.query.lng, req.query.lat ] },
+					 $maxDistance: 50000
+				}
+			}
+		},function(err,allBus){
+			if(err){
+				res.json({ success: false , msg: 404 });
+			}else {
+				res.json({ success: true , data: allBus });
+			}
+		}
+	);
 });
 
 
 
-	
+
 module.exports = router;
