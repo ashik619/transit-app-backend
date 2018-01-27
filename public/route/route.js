@@ -1,9 +1,11 @@
 var app = angular.module('routeApp', []);
+var const = 'http://34.208.166.249:80';
+//var url = 'http://127.0.0.1:8080';
     app.controller('routeCtrl', function($scope, $http, $window) {
     $scope.createNew = false;
     $http({
              method: 'GET',
-             url : 'http://127.0.0.1:8080/api/route/getRoutes'}
+             url : baseUrl+'/api/route/getRoutes'}
         ).then(function(response) {
               $scope.routes = response.data.data;
               $scope.content = "Success";
@@ -13,7 +15,7 @@ var app = angular.module('routeApp', []);
         );
     $http({
             method: 'GET',
-            url : 'http://127.0.0.1:8080/api/busstop/getBusStops'})
+            url : baseUrl+'/api/busstop/getBusStops'})
         .then(function(response) {
               $scope.busStops = response.data.data;
               }, function(response) {
@@ -26,7 +28,7 @@ var app = angular.module('routeApp', []);
                   $scope.showBusStops = false;
                    var reqBody = {
                      method: "POST",
-                     url: "http://127.0.0.1:8080/api/route/createRoute",
+                     url: baseUrl+"/api/route/createRoute",
                      headers: {
                      'Content-Type': 'application/json'
                      },
@@ -44,7 +46,7 @@ var app = angular.module('routeApp', []);
          $scope.selectedRouteId = id;
         $scope.showBusStops = true;
         $scope.createNew = false;
-        var finalUrl = 'http://127.0.0.1:8080/api/route/getRouteBusStops?id=';
+        var finalUrl = baseUrl+'/api/route/getRouteBusStops?id=';
          $http({
             method: 'GET',
             url : finalUrl.concat(id)})
@@ -59,7 +61,7 @@ var app = angular.module('routeApp', []);
         if($scope.selectedBusStop){
             var reqBody = {
             method: "POST",
-            url: "http://127.0.0.1:8080/api/route/addBustop",
+            url: baseUrl+"/api/route/addBustop",
             headers: {
             'Content-Type': 'application/json'
             },

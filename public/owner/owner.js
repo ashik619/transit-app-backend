@@ -1,10 +1,12 @@
 var app = angular.module('ownerApp', []);
+const baseUrl = 'http://34.208.166.249:80';
+//const baseUrl = 'http://127.0.0.1:8080';
     app.controller('ownerCtrl', function($scope, $http, $window) {
     $scope.createNew = false;
 
       $http({
              method: 'GET',
-             url : 'http://127.0.0.1:8080/api/owner/getOwners'}
+             url : baseUrl + '/api/owner/getOwners'}
         ).then(function(response) {
               $scope.owners = response.data.data;
               }, function(response) {
@@ -14,7 +16,7 @@ var app = angular.module('ownerApp', []);
       $scope.addNewOwner = function() {
           var reqBody = {
             method: "POST",
-            url: "http://127.0.0.1:8080/api/owner/createOwner",
+            url: baseUrl + "/api/owner/createOwner",
             headers: {
             'Content-Type': 'application/json'
             },

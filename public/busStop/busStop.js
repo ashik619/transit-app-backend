@@ -1,10 +1,12 @@
 var app = angular.module('busStopApp', []);
+const baseUrl = 'http://34.208.166.249:80';
+//const baseUrl = 'http://127.0.0.1:8080';
     app.controller('busStopCtrl', function($scope, $http, $window) {
     $scope.createNew = false;
 
       $http({
              method: 'GET',
-             url : 'http://127.0.0.1:8080/api/busstop/getBusStops'}
+             url : baseUrl + '/api/busstop/getBusStops'}
         ).then(function(response) {
               $scope.busStops = response.data.data;
               $scope.content = "Success";
@@ -15,7 +17,7 @@ var app = angular.module('busStopApp', []);
       $scope.createBusStop = function() {
           var reqBody = {
             method: "POST",
-            url: "http://127.0.0.1:8080/api/busstop/createBusStop",
+            url: baseUrl + "/api/busstop/createBusStop",
             headers: {
             'Content-Type': 'application/json'
             },
