@@ -63,7 +63,7 @@ router.post('/startTrip', function(req, res) {
 			res.json({ success: false , msg: 404 });
 		}else {
 			if(bus){
-				res.json({ success: false , msg: 200 });
+				res.json({ success: true , msg: 200 });
 			}else res.json({ success: false , msg: 404 });
 		}
 	});
