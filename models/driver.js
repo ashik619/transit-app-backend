@@ -8,10 +8,10 @@ var driverSchema = new mongoose.Schema({
     userId : { type: Number, unique: true},
     status : {type : Number, default : 0 }, //0 - inacative 1 - active
     busId: { type: Number, required: false },
-    ownerId: { type: Number, required: true },
     password : {type : String, required: true },
     apiKey : {type : String, required: true }
 });
+autoIncrement.initialize(mongoose.connection);
 driverSchema.plugin(autoIncrement.plugin, {
     model: 'Driver',
     field: 'userId',

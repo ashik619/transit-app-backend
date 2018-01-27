@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<body ng-app="busApp" ng-controller="busCtrl">
+
+<div class="w3-container">
+
+<h3>Get Now Drivers</h3>
+
+<table class="w3-table w3-bordered w3-striped">
+  <tr>
+    <th>Driver Id</th>
+    <th>Name</th>
+    <th>Phone Number</th>
+  </tr>
+  <tr ng-repeat="driver in drivers">
+    <td>{{ driver.userId }}</td>
+    <td>{{ driver.name }}</td>
+    <td>{{ driver.phoneNumber }}</td>
+  </tr>
+</table>
+<br>
+<p>{{content}}</p>
+<button class="w3-btn w3-green w3-ripple" ng-click="createNew = true">&#9998; Add New Driver</button>
+
+<form ng-show="createNew">
+  <h3>Create New Owner:</h3>
+  <br>
+    <label>Name:</label>
+    <input class="w3-input w3-border" type="text" ng-model="name"  placeholder="Name">
+  <br>
+  <label>Phone Number:</label>
+  <input class="w3-input w3-border" type="text" ng-model="phoneNumber"  placeholder="Name">
+  <br>
+  <br>
+  <button class="w3-btn w3-green w3-ripple" ng-click="addNewOwner()">&#10004; Create Owner</button>
+  <br>
+</form>
+
+</div>
+
+<script
+       src='driver.js'>
+</script>
+
+
+
+</body>
+</html>

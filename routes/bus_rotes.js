@@ -11,7 +11,6 @@ var async = require("async");
 router.post('/createBus', function(req, res) {
 	var temp = new Bus();
 	temp.name = req.body.name;
-	temp.busId = req.body.busId;
   temp.routeId = req.body.routeId;
 	temp.ownerId = req.body.ownerId;
 	temp.save(function(err){
@@ -53,7 +52,7 @@ router.post('/updateCurrentLoc', function(req, res) {
 				res.json({ success: false , msg: 404 });
 			}else {
 				if(bus){
-					res.json({ success: false , msg: 200 });
+					res.json({ success: true , msg: 200 });
 				}else res.json({ success: false , msg: 404 });
 			}
 		});

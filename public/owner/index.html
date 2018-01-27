@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<body ng-app="ownerApp" ng-controller="ownerCtrl">
+
+<div class="w3-container">
+
+<h3>Owner Creation</h3>
+
+<table class="w3-table w3-bordered w3-striped">
+  <tr>
+    <th>User Id</th>
+    <th>Name</th>
+    <th>Phone</th>
+  </tr>
+  <tr ng-repeat="owner in owners">
+    <td>{{ owner.ownerId }}</td>
+    <td>{{ owner.name }}</td>
+    <td>{{ owner.phoneNumber }}</td>
+  </tr>
+</table>
+<br>
+<button class="w3-btn w3-green w3-ripple" ng-click="createNew = true">&#9998; Add New Bus</button>
+
+<form ng-show="createNew">
+  <h3>Add New Owner:</h3>
+  <br>
+    <label>Name:</label>
+    <input class="w3-input w3-border" type="text" ng-model="name"  placeholder="Name">
+  <br>
+  <label>Phone Number:</label>
+  <input class="w3-input w3-border" type="text" ng-model="phoneNumber"  placeholder="Name">
+  <br>
+  <br>
+  <button class="w3-btn w3-green w3-ripple" ng-click="addNewOwner()">&#10004; Create Owner</button>
+  <br>
+</form>
+
+</div>
+
+<script
+       src='owner.js'>
+</script>
+
+
+
+</body>
+</html>

@@ -1,7 +1,7 @@
 var app = angular.module('busApp', []);
     app.controller('busCtrl', function($scope, $http, $window) {
     $scope.createNew = false;
-    
+
       $http({
              method: 'GET',
              url : 'http://127.0.0.1:8080/api/bus/getAllBus'}
@@ -13,13 +13,22 @@ var app = angular.module('busApp', []);
             );
       $http({
              method: 'GET',
-             url : 'http://127.0.0.1:8080/api/route/getRoutes'}
+             url : 'http://127.0.0.1:8080/api/owner/getOwners'}
         ).then(function(response) {
-              $scope.routes = response.data.data;
+              $scope.owners = response.data.data;
               }, function(response) {
                 showMessage("Some thing went wrong");
               }
         );
+        $http({
+               method: 'GET',
+               url : 'http://127.0.0.1:8080/api/route/getRoutes'}
+          ).then(function(response) {
+                $scope.routes = response.data.data;
+                }, function(response) {
+                  showMessage("Some thing went wrong");
+                }
+          );
       $scope.addNewBus = function() {
           var reqBody = {
             method: "POST",
@@ -27,7 +36,7 @@ var app = angular.module('busApp', []);
             headers: {
             'Content-Type': 'application/json'
             },
-            data: { name: $scope.name,busId : $scope.bid, routeId : $scope.selectedRoute.routeId }
+            data: { name: $scope.name, routeId : $scope.selectedRoute.routeId, ownerId : $scope.selectedOwner.ownerId }
             };
           $http(reqBody).then(function(response){
                   showMessage(response.data.msg);
@@ -35,7 +44,7 @@ var app = angular.module('busApp', []);
                     console.log(response);
                     showMessage("Something went wrong");
                 });
-  
+
       };
       var showMessage = function(message){
          $window.alert(message);

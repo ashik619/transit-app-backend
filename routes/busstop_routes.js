@@ -9,13 +9,13 @@ var BusStop = require('../models/busStop.js');
 router.post('/createBusStop', function(req, res) {
 	var temp = new BusStop();
 	temp.name = req.body.name;
-	temp.stopId = req.body.stopId;
+	//temp.stopId = req.body.stopId;
 	temp.loc = {type: "Point",coordinates:[req.body.lng,req.body.lat]};
 	temp.save(function(err){
 		if(err){
 			res.json({ success: false , msg: err });
 		}else{
-			res.json({ success: true , msg: "Bustop Created" });	
+			res.json({ success: true , msg: "Bustop Created" });
 		}
 	});
 });
@@ -30,5 +30,5 @@ router.get('/getBusStops', function(req, res) {
 		}
 	});
 });
-	
+
 module.exports = router;

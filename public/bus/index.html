@@ -28,11 +28,13 @@
 
 <form ng-show="createNew">
   <h3>Add New Bus:</h3>
+  <br>
     <label>Name:</label>
     <input class="w3-input w3-border" type="text" ng-model="name"  placeholder="Name">
-  <br>
-    <label>Bus ID:</label>
-    <input class="w3-input w3-border" type="number" ng-model="bid"  placeholder="Bus ID">
+    <br>
+      <label>Select Owner for new Bus:</label>
+      <select class="w3-select w3-border" ng-model="selectedOwner" ng-options = "owner as owner.name for owner in owners">
+      </select>
   <br>
     <label>Select Route for new Bus:</label>
     <select class="w3-select w3-border" ng-model="selectedRoute" ng-options = "route as route.name for route in routes">
@@ -48,8 +50,8 @@
 <script
        src='bus.js'>
 </script>
-    
-  
+
+
 
 </body>
 </html>

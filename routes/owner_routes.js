@@ -4,11 +4,19 @@ var mongoose = require('mongoose');
 mongoose.set('debug', true);
 var Owner = require('../models/owner.js');
 var Bus = require('../models/bus.js');
+var Route = require('../models/route.js');
+var passwordGenerator = require('generate-password');
+const uuidv4 = require('uuid/v4');
 
 router.post('/createOwner', function(req, res) {
 	var temp = new Owner();
 	temp.name = req.body.name;
-	temp.ownerId = req.body.ownerId;
+	temp.phoneNumber = req.body.phoneNumber;
+	temp.password = passwordGenerator.generate({
+    length: 5,
+    numbers: false
+	});
+	temp.apiKey = uuidv4();
 	temp.save(function(err){
 		if(err){
 			res.json({ success: false , msg: err });
@@ -17,14 +25,23 @@ router.post('/createOwner', function(req, res) {
 		}
 	});
 });
-
+//id - userID,
+//bsId
 router.post('/addBus', function(req, res) {
 	Owner.findOne({ownerId : req.body.id},function(err,owner){
         if(err){
-			res.json({ success: false , msg: "Owner not found" });
+						res.json({ success: false , msg: "Owner not found" });
         }else {
       			if(owner.busIds.indexOf(req.body.bsId) > -1){
-      				res.json({ success: false , msg: "Bus already added" });
+							Bus.findOneAndUpdate({busId : req.body.bsId},{$set: { ownerId: req.body.id  }},{new: true},function(err,bus){
+								if(err){
+									res.json({ success: false , msg: "Some error try again later" });
+								}else {
+									if(bus){
+										res.json({ success: false , msg: "Bus already added" });
+									}else res.json({ success: false , msg: 404 });
+								}
+							});
       			}else{
       				Owner.update(
       				{ _id: owner._id },
@@ -32,7 +49,17 @@ router.post('/addBus', function(req, res) {
       				function(err,raw){
       					if(err){
       						res.json({ success: false , msg: "Some error try again later" });
-      					}else res.json({ success: true , msg: "Bus added" });
+      					}else {
+									Bus.findOneAndUpdate({busId : req.body.bsId},{$set: { ownerId: req.body.id  }},{new: true},function(err,bus){
+										if(err){
+											res.json({ success: false , msg: "Some error try again later" });
+										}else {
+											if(bus){
+												res.json({ success: true , msg: "Bus added" });
+											}else res.json({ success: false , msg: 404 });
+										}
+									});
+								}
       				}
       				);
       			}

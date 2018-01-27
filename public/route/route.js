@@ -20,9 +20,9 @@ var app = angular.module('routeApp', []);
                  showMessage("Some thing went wrong");
               }
         );
-        
+
     $scope.createRoute = function() {
-         if($scope.name && $scope.id && $scope.startBusStop && $scope.lastBusStop){
+         if($scope.name  && $scope.startBusStop && $scope.lastBusStop){
                   $scope.showBusStops = false;
                    var reqBody = {
                      method: "POST",
@@ -30,7 +30,7 @@ var app = angular.module('routeApp', []);
                      headers: {
                      'Content-Type': 'application/json'
                      },
-                     data: { name: $scope.name, routeId : $scope.id, srcName : $scope.startBusStop.name, srcBsId : $scope.startBusStop.id, dstName : $scope.lastBusStop.name, dstBsId : $scope.lastBusStop.id }
+                     data: { name: $scope.name, srcName : $scope.startBusStop.name, srcBsId : $scope.startBusStop.id, dstName : $scope.lastBusStop.name, dstBsId : $scope.lastBusStop.id }
                      };
                    $http(reqBody).then(function(response){
                            $scope.content = response.data.msg;
@@ -38,7 +38,7 @@ var app = angular.module('routeApp', []);
                              $scope.content = response.data.msg;
                          });
          } else showMessage("Fill all fields");
-  
+
     };
     $scope.viewAllBusStops = function(id){
          $scope.selectedRouteId = id;
@@ -77,4 +77,4 @@ var app = angular.module('routeApp', []);
     var showMessage = function(message){
          $window.alert(message);
     };
-}); 
+});
