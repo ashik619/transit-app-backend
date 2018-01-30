@@ -21,6 +21,8 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use('/home', express.static('./public/home'));
+
 app.use('/busStop', express.static('./public/busStop'));
 
 app.use('/route', express.static('./public/route'));
