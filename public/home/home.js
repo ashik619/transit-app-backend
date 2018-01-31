@@ -2,7 +2,6 @@ var app = angular.module('homeApp', []);
 const baseUrl = 'http://34.208.166.249:80';
 //const baseUrl = 'http://127.0.0.1:8080';
     app.controller('homeCtrl', function($scope, $http, $window) {
-    $scope.createNew = false;
 
       $http({
              method: 'GET',
