@@ -1,5 +1,5 @@
 var app = angular.module('routeApp', []);
-var const = 'http://34.208.166.249:80';
+const baseUrl = 'http://34.208.166.249:80';
 //var url = 'http://127.0.0.1:8080';
     app.controller('routeCtrl', function($scope, $http, $window) {
     $scope.createNew = false;
