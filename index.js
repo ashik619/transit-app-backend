@@ -49,7 +49,7 @@ var owner_routes = require('./routes/owner_routes');
 app.use('/api/owner', owner_routes);
 
 
-var port='8080';
+var port='80';
 app.listen(port);
 console.log('Listening on port:'+port );
 module.exports = app;
