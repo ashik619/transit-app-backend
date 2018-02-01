@@ -14,6 +14,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
   console.log("db connected");
+  //db.collection("allBus").createIndex({cloc:"2dsphere"});
 });
 
 

@@ -173,12 +173,12 @@ router.get('/findNearBuses', function(req, res) {
 			cloc : {
 				$near:{
 					 $geometry: { type: "Point",  coordinates: [ req.query.lng, req.query.lat ] },
-					 $maxDistance: 50000
+					 $maxDistance: 10000
 				}
 			}
 		},function(err,allBus){
 			if(err){
-				res.json({ success: false , msg: 404 });
+				res.json({ success: false , msg: err });
 			}else {
 				res.json({ success: true , data: allBus });
 			}
